@@ -1,8 +1,10 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import { makeStyles } from "@material-ui/core/styles";
+
+import logo from "../../assets/logo.svg";
 
 // To set the elevation when scroll down
 function ElevationScroll(props) {
@@ -17,12 +19,20 @@ function ElevationScroll(props) {
   });
 }
 
+// To set override default styles
+const useStyles = makeStyles({
+  logo: {
+    height: "7em",
+  },
+});
+
 export default function Header() {
+  const classes = useStyles();
   return (
     <ElevationScroll>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant='h3'>Arc Development</Typography>
+      <AppBar position="sticky">
+        <Toolbar disableGutters>
+          <img src={logo} alt="Company logo" className={classes.logo} />
         </Toolbar>
       </AppBar>
     </ElevationScroll>

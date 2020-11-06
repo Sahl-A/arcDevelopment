@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  topToolBar: {
+    height: "10px",
+    minHeight: 0,
+  },
 }));
 
 // To show back to top button when scroll down
@@ -40,9 +44,10 @@ function ScrollTop(props) {
 }
 
 function BackToTop(props) {
+  const classes = useStyles();
   return (
     <>
-      <Toolbar id="back-to-top-anchor" />
+      <Toolbar id="back-to-top-anchor" className={classes.topToolBar} />
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
