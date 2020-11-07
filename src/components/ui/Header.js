@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -25,8 +25,14 @@ function ElevationScroll(props) {
 
 // To set override default styles
 const useStyles = makeStyles((theme) => ({
+  logoContainer: {
+    padding: 0,
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
   logo: {
-    height: "7em",
+    height: "8em",
   },
   tabContainer: {
     marginLeft: "auto",
@@ -48,16 +54,54 @@ export default function Header() {
   const classes = useStyles();
   // useState to change the value when changing the tab
   const [value, setValue] = useState(0);
+  // to handle the tab value when reloading the page
+  useEffect(() => {
+    switch (window.location.pathname) {
+      case "/":
+        setValue(0);
+        break;
+
+      case "/services":
+        setValue(1);
+        break;
+
+      case "/revolution":
+        setValue(2);
+        break;
+
+      case "/about":
+        setValue(3);
+        break;
+
+      case "/contact":
+        setValue(4);
+        break;
+
+      default:
+        break;
+    }
+  }, [value]);
 
   // handleChange to change the above value when chanigng the tab
   const handleChange = (e, value) => {
     setValue(value);
   };
+
   return (
     <ElevationScroll>
       <AppBar position="sticky">
         <Toolbar disableGutters>
-          <img src={logo} alt="Company logo" className={classes.logo} />
+          <Button
+            component={Link}
+            to="/"
+            disableRipple
+            className={classes.logoContainer}
+            onClick={() => {
+              setValue(0);
+            }}
+          >
+            <img src={logo} alt="Company logo" className={classes.logo} />
+          </Button>
           <Tabs
             value={value}
             onChange={handleChange}
