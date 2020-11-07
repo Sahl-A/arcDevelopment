@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
@@ -63,11 +64,31 @@ export default function Header() {
             indicatorColor="primary"
             className={classes.tabContainer}
           >
-            <Tab className={classes.tab} label="Home" />
-            <Tab className={classes.tab} label="Services" />
-            <Tab className={classes.tab} label="The Revolution" />
-            <Tab className={classes.tab} label="About Us" />
-            <Tab className={classes.tab} label="Contact Us" />
+            <Tab className={classes.tab} component={Link} to="/" label="Home" />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to="/services"
+              label="Services"
+            />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to="/revolution"
+              label="The Revolution"
+            />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to="/about"
+              label="About Us"
+            />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to="/contact"
+              label="Contact Us"
+            />
           </Tabs>
           <Button
             className={classes.button}
