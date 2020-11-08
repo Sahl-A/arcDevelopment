@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import logo from "../../assets/logo.svg";
 
@@ -52,39 +54,53 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
+
+  ///////// State Control ///////////
   // useState to change the value when changing the tab
-  const [value, setValue] = useState(0);
+  const [tabValue, setTabValue] = useState(0);
+  // Indicator to be used to close the menu
+  const [anchorEl, setAnchorEl] = React.useState(null);
   // to handle the tab value when reloading the page
   useEffect(() => {
     switch (window.location.pathname) {
       case "/":
-        setValue(0);
+        setTabValue(0);
         break;
 
       case "/services":
-        setValue(1);
+        setTabValue(1);
         break;
 
       case "/revolution":
-        setValue(2);
+        setTabValue(2);
         break;
 
       case "/about":
-        setValue(3);
+        setTabValue(3);
         break;
 
       case "/contact":
-        setValue(4);
+        setTabValue(4);
         break;
 
       default:
         break;
     }
-  }, [value]);
+  }, [tabValue]);
 
-  // handleChange to change the above value when chanigng the tab
-  const handleChange = (e, value) => {
-    setValue(value);
+  ////////// Handlers /////////////
+  // handleTabChange to change the above value when chanigng the tab
+  const handleTabChange = (e, tabValue) => {
+    setTabValue(tabValue);
+  };
+  // Handle menu close
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  // Handle menu open when clicking the services tab
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
   return (
@@ -97,19 +113,22 @@ export default function Header() {
             disableRipple
             className={classes.logoContainer}
             onClick={() => {
-              setValue(0);
+              setTabValue(0);
             }}
           >
             <img src={logo} alt="Company logo" className={classes.logo} />
           </Button>
           <Tabs
-            value={value}
-            onChange={handleChange}
+            value={tabValue}
+            onChange={handleTabChange}
             indicatorColor="primary"
             className={classes.tabContainer}
           >
             <Tab className={classes.tab} component={Link} to="/" label="Home" />
             <Tab
+              aria-owns={anchorEl ? "services-menu" : anchorEl}
+              aria-haspopup={anchorEl ? "true" : anchorEl}
+              onMouseEnter={handleMenuClick}
               className={classes.tab}
               component={Link}
               to="/services"
@@ -141,6 +160,22 @@ export default function Header() {
           >
             Free Estimate
           </Button>
+          <Menu
+            id="services-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            MenuListProps={{ onMouseLeave: handleMenuClose }}
+          >
+            <MenuItem onClick={handleMenuClose}>
+              Custom Software Development
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              Moblie App Development
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>Web Development</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </ElevationScroll>
