@@ -64,13 +64,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
+  const menuOptions = [
+    { name: "services", link: "/services" },
+    { name: "Custom Software Development", link: "/customsoftware" },
+    { name: "Moblie App Development", link: "/mobileapps" },
+    { name: "Web Development", link: "/websites" },
+  ];
   const classes = useStyles();
 
   ///////// State Control ///////////
   // useState to change the value when changing the tab
   const [tabValue, setTabValue] = useState(0);
+
   // Indicator to be used to close the menu
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  // Indicator to be used when selecting the menu item
+  const [selectedMenuItemIndex, setselectedMenuItemIndex] = React.useState(0);
+
   // to handle the tab value when reloading the page
   useEffect(() => {
     switch (window.location.pathname) {
@@ -94,6 +105,25 @@ export default function Header() {
         setTabValue(4);
         break;
 
+      case "/estimate":
+        setTabValue(5);
+        break;
+
+      case "/customsoftware":
+        setTabValue(1);
+        setselectedMenuItemIndex(1);
+        break;
+
+      case "/mobileapps":
+        setTabValue(1);
+        setselectedMenuItemIndex(2);
+        break;
+
+      case "/websites":
+        setTabValue(1);
+        setselectedMenuItemIndex(3);
+        break;
+
       default:
         break;
     }
@@ -112,6 +142,12 @@ export default function Header() {
   // Handle menu open when clicking the services tab
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  // Handle when clicking the menu Item
+  const handleMenuItemClick = (event, index) => {
+    setselectedMenuItemIndex(index);
+    setAnchorEl(null);
   };
 
   return (
@@ -172,6 +208,7 @@ export default function Header() {
             Free Estimate
           </Button>
           <Menu
+            elevation={0}
             id="services-menu"
             anchorEl={anchorEl}
             keepMounted
@@ -180,50 +217,22 @@ export default function Header() {
             MenuListProps={{ onMouseLeave: handleMenuClose }}
             classes={{ paper: classes.menu }}
           >
-            <MenuItem
-              component={Link}
-              to="/services"
-              onClick={() => {
-                handleMenuClose();
-                setTabValue(1);
-              }}
-              classes={{ root: classes.menuItem }}
-            >
-              Services
-            </MenuItem>
-            <MenuItem
-              component={Link}
-              to="/customsoftware"
-              onClick={() => {
-                handleMenuClose();
-                setTabValue(1);
-              }}
-              classes={{ root: classes.menuItem }}
-            >
-              Custom Software Development
-            </MenuItem>
-            <MenuItem
-              component={Link}
-              to="/mobileapps"
-              onClick={() => {
-                handleMenuClose();
-                setTabValue(1);
-              }}
-              classes={{ root: classes.menuItem }}
-            >
-              Moblie App Development
-            </MenuItem>
-            <MenuItem
-              component={Link}
-              to="/websites"
-              onClick={() => {
-                handleMenuClose();
-                setTabValue(1);
-              }}
-              classes={{ root: classes.menuItem }}
-            >
-              Web Development
-            </MenuItem>
+            {menuOptions.map((option, index) => (
+              <MenuItem
+                key={option.name}
+                component={Link}
+                to={option.link}
+                selected={index === selectedMenuItemIndex && tabValue === 1}
+                onClick={(event) => {
+                  handleMenuClose();
+                  setTabValue(1);
+                  handleMenuItemClick(event, index);
+                }}
+                classes={{ root: classes.menuItem }}
+              >
+                {option.name}
+              </MenuItem>
+            ))}
           </Menu>
         </Toolbar>
       </AppBar>
