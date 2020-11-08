@@ -50,6 +50,17 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 25px 0 50px",
     height: "45px",
   },
+  menu: {
+    backgroundColor: theme.palette.common.blue,
+    color: "white",
+  },
+  menuItem: {
+    ...theme.typography.tab,
+    opacity: "0.7",
+    "&:hover": {
+      opacity: 1,
+    },
+  },
 }));
 
 export default function Header() {
@@ -167,14 +178,52 @@ export default function Header() {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
             MenuListProps={{ onMouseLeave: handleMenuClose }}
+            classes={{ paper: classes.menu }}
           >
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem
+              component={Link}
+              to="/services"
+              onClick={() => {
+                handleMenuClose();
+                setTabValue(1);
+              }}
+              classes={{ root: classes.menuItem }}
+            >
+              Services
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to="/customsoftware"
+              onClick={() => {
+                handleMenuClose();
+                setTabValue(1);
+              }}
+              classes={{ root: classes.menuItem }}
+            >
               Custom Software Development
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem
+              component={Link}
+              to="/mobileapps"
+              onClick={() => {
+                handleMenuClose();
+                setTabValue(1);
+              }}
+              classes={{ root: classes.menuItem }}
+            >
               Moblie App Development
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>Web Development</MenuItem>
+            <MenuItem
+              component={Link}
+              to="/websites"
+              onClick={() => {
+                handleMenuClose();
+                setTabValue(1);
+              }}
+              classes={{ root: classes.menuItem }}
+            >
+              Web Development
+            </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
