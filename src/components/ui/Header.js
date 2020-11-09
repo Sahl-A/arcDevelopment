@@ -9,6 +9,8 @@ import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import logo from "../../assets/logo.svg";
 
@@ -35,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     height: "8em",
+    [theme.breakpoints.down("md")]: {
+      height: "7em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "5.5em",
+    },
   },
   tabContainer: {
     marginLeft: "auto",
@@ -70,9 +78,14 @@ export default function Header() {
     { name: "Moblie App Development", link: "/mobileapps" },
     { name: "Web Development", link: "/websites" },
   ];
-  const classes = useStyles();
 
-  ///////// State Control ///////////
+  //////////// HOOKS /////////////
+  ////////////////////////////////
+  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
+  /// useState ////
   // useState to change the value when changing the tab
   const [tabValue, setTabValue] = useState(0);
 
@@ -130,6 +143,7 @@ export default function Header() {
   }, [tabValue]);
 
   ////////// Handlers /////////////
+  ////////////////////////////////
   // handleTabChange to change the above value when chanigng the tab
   const handleTabChange = (e, tabValue) => {
     setTabValue(tabValue);
@@ -150,6 +164,78 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  /////// Rendered Variables /////////////
+  ////////////////////////////////
+  const tabs = (
+    <>
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        indicatorColor="primary"
+        className={classes.tabContainer}
+      >
+        <Tab className={classes.tab} component={Link} to="/" label="Home" />
+        <Tab
+          aria-owns={anchorEl ? "services-menu" : anchorEl}
+          aria-haspopup={anchorEl ? "true" : anchorEl}
+          onMouseEnter={handleMenuClick}
+          className={classes.tab}
+          component={Link}
+          to="/services"
+          label="Services"
+        />
+        <Tab
+          className={classes.tab}
+          component={Link}
+          to="/revolution"
+          label="The Revolution"
+        />
+        <Tab
+          className={classes.tab}
+          component={Link}
+          to="/about"
+          label="About Us"
+        />
+        <Tab
+          className={classes.tab}
+          component={Link}
+          to="/contact"
+          label="Contact Us"
+        />
+      </Tabs>
+      <Button className={classes.button} variant="contained" color="secondary">
+        Free Estimate
+      </Button>
+      <Menu
+        elevation={0}
+        id="services-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        MenuListProps={{ onMouseLeave: handleMenuClose }}
+        classes={{ paper: classes.menu }}
+      >
+        {menuOptions.map((option, index) => (
+          <MenuItem
+            key={option.name}
+            component={Link}
+            to={option.link}
+            selected={index === selectedMenuItemIndex && tabValue === 1}
+            onClick={(event) => {
+              handleMenuClose();
+              setTabValue(1);
+              handleMenuItemClick(event, index);
+            }}
+            classes={{ root: classes.menuItem }}
+          >
+            {option.name}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+
   return (
     <ElevationScroll>
       <AppBar position="sticky">
@@ -165,75 +251,7 @@ export default function Header() {
           >
             <img src={logo} alt="Company logo" className={classes.logo} />
           </Button>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            indicatorColor="primary"
-            className={classes.tabContainer}
-          >
-            <Tab className={classes.tab} component={Link} to="/" label="Home" />
-            <Tab
-              aria-owns={anchorEl ? "services-menu" : anchorEl}
-              aria-haspopup={anchorEl ? "true" : anchorEl}
-              onMouseEnter={handleMenuClick}
-              className={classes.tab}
-              component={Link}
-              to="/services"
-              label="Services"
-            />
-            <Tab
-              className={classes.tab}
-              component={Link}
-              to="/revolution"
-              label="The Revolution"
-            />
-            <Tab
-              className={classes.tab}
-              component={Link}
-              to="/about"
-              label="About Us"
-            />
-            <Tab
-              className={classes.tab}
-              component={Link}
-              to="/contact"
-              label="Contact Us"
-            />
-          </Tabs>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            Free Estimate
-          </Button>
-          <Menu
-            elevation={0}
-            id="services-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            MenuListProps={{ onMouseLeave: handleMenuClose }}
-            classes={{ paper: classes.menu }}
-          >
-            {menuOptions.map((option, index) => (
-              <MenuItem
-                key={option.name}
-                component={Link}
-                to={option.link}
-                selected={index === selectedMenuItemIndex && tabValue === 1}
-                onClick={(event) => {
-                  handleMenuClose();
-                  setTabValue(1);
-                  handleMenuItemClick(event, index);
-                }}
-                classes={{ root: classes.menuItem }}
-              >
-                {option.name}
-              </MenuItem>
-            ))}
-          </Menu>
+          {matches ? null : tabs}
         </Toolbar>
       </AppBar>
     </ElevationScroll>
