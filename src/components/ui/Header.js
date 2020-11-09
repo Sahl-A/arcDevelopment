@@ -11,6 +11,9 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import logo from "../../assets/logo.svg";
 
@@ -69,6 +72,16 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1,
     },
   },
+  menuIconContainer: {
+    marginLeft: "auto",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  menuIcon: {
+    height: "50px",
+    width: "50px",
+  },
 }));
 
 export default function Header() {
@@ -78,6 +91,8 @@ export default function Header() {
     { name: "Moblie App Development", link: "/mobileapps" },
     { name: "Web Development", link: "/websites" },
   ];
+  // Variable to handle the drawer in ios devices
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   //////////// HOOKS /////////////
   ////////////////////////////////
@@ -94,6 +109,9 @@ export default function Header() {
 
   // Indicator to be used when selecting the menu item
   const [selectedMenuItemIndex, setselectedMenuItemIndex] = React.useState(0);
+
+  // To open drawer
+  const [openDrawer, setopenDrawer] = React.useState(false);
 
   // to handle the tab value when reloading the page
   useEffect(() => {
@@ -164,7 +182,7 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  /////// Rendered Variables /////////////
+  /////// Rendered Variables /////
   ////////////////////////////////
   const tabs = (
     <>
@@ -236,6 +254,28 @@ export default function Header() {
     </>
   );
 
+  const drawer = (
+    <>
+      <SwipeableDrawer
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        onClose={() => setopenDrawer(false)}
+        onOpen={() => setopenDrawer(true)}
+      >
+        test
+      </SwipeableDrawer>
+      <IconButton
+        aria-label="open drawer"
+        onClick={() => setopenDrawer(true)}
+        disableRipple
+        className={classes.menuIconContainer}
+      >
+        <MenuIcon className={classes.menuIcon} />
+      </IconButton>
+    </>
+  );
+
   return (
     <ElevationScroll>
       <AppBar position="sticky">
@@ -251,7 +291,7 @@ export default function Header() {
           >
             <img src={logo} alt="Company logo" className={classes.logo} />
           </Button>
-          {matches ? null : tabs}
+          {matches ? drawer : tabs}
         </Toolbar>
       </AppBar>
     </ElevationScroll>
