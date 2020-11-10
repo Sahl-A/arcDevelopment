@@ -102,11 +102,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
-  const menuOptions = [
-    { name: "services", link: "/services" },
-    { name: "Custom Software Development", link: "/customsoftware" },
-    { name: "Moblie App Development", link: "/mobileapps" },
-    { name: "Web Development", link: "/websites" },
+  const menuOptions = [    { name: "services", link: "/services", activeIndex: 1, selectedIndex: 0 },
+    {
+      name: "Custom Software Development",
+      link: "/customsoftware",
+      activeIndex: 1,
+      selectedIndex: 1,
+    },
+    {
+      name: "Moblie App Development",
+      link: "/mobileapps",
+      activeIndex: 1,
+      selectedIndex: 2,
+    },
+    {
+      name: "Web Development",
+      link: "/websites",
+      activeIndex: 1,
+      selectedIndex: 3,
+    },
+  ];
+
+  const routes = [
+    { name: "Home", link: "/", activeIndex: 0 },
+    { name: "Services", link: "/services", activeIndex: 1 },
+    { name: "The Revolution", link: "/revolution", activeIndex: 2 },
+    { name: "About Us", link: "/about", activeIndex: 3 },
+    { name: "Contact Us", link: "/contact", activeIndex: 4 },
   ];
   // Variable to handle the drawer in ios devices
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -132,50 +154,22 @@ export default function Header() {
 
   // to handle the tab value when reloading the page
   useEffect(() => {
-    switch (window.location.pathname) {
-      case "/":
-        setTabValue(0);
-        break;
-
-      case "/services":
-        setTabValue(1);
-        break;
-
-      case "/revolution":
-        setTabValue(2);
-        break;
-
-      case "/about":
-        setTabValue(3);
-        break;
-
-      case "/contact":
-        setTabValue(4);
-        break;
-
-      case "/estimate":
-        setTabValue(5);
-        break;
-
-      case "/customsoftware":
-        setTabValue(1);
-        setselectedMenuItemIndex(1);
-        break;
-
-      case "/mobileapps":
-        setTabValue(1);
-        setselectedMenuItemIndex(2);
-        break;
-
-      case "/websites":
-        setTabValue(1);
-        setselectedMenuItemIndex(3);
-        break;
-
-      default:
-        break;
-    }
-  }, [tabValue]);
+    [...menuOptions, ...routes].forEach(route => {
+      switch (window.location.pathname) {
+        case `${route.link}`:
+          if(tabValue !== route.activeIndex) {
+            setTabValue(route.activeIndex);
+            if(route.selectedIndex && route.selectedIndex !== selectedMenuItemIndex){
+              setselectedMenuItemIndex(route.selectedIndex)
+            }
+          }
+          break;
+      
+        default:
+          break;
+      }
+    })
+  }, [tabValue, menuOptions, selectedMenuItemIndex, routes]); 
 
   ////////// Handlers /////////////
   ////////////////////////////////
