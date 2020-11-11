@@ -94,7 +94,9 @@ const useStyles = makeStyles((theme) => ({
     opacity: "0.7",
   },
   drawerItemSelected: {
-    opacity: 1,
+    "& .MuiListItemText-root": {
+      opacity: 1,
+    },
   },
   drawerItemEstimate: {
     backgroundColor: theme.palette.common.orange,
@@ -207,6 +209,9 @@ export default function Header() {
           break;
       }
     });
+    if (window.location.pathname === "/estimate") {
+      setTabValue(5);
+    }
   }, [tabValue, menuOptions, selectedMenuItemIndex, routes]);
 
   /////// Rendered Variables /////
@@ -284,25 +289,23 @@ export default function Header() {
               component={Link}
               to={route.link}
               selected={tabValue === route.activeIndex}
+              classes={{ selected: classes.drawerItemSelected }}
               onClick={() => {
                 setopenDrawer(false);
                 setTabValue(route.activeIndex);
               }}
             >
-              <ListItemText
-                disableTypography
-                className={
-                  tabValue === route.activeIndex
-                    ? [classes.drawerItem, classes.drawerItemSelected]
-                    : classes.drawerItem
-                }
-              >
+              <ListItemText disableTypography className={classes.drawerItem}>
                 {route.name}
               </ListItemText>
             </ListItem>
           ))}
           <ListItem
             className={classes.drawerItemEstimate}
+            classes={{
+              selected: classes.drawerItemSelected,
+              root: classes.drawerItemEstimate,
+            }}
             selected={tabValue === 5}
             onClick={() => {
               setopenDrawer(false);
@@ -313,14 +316,7 @@ export default function Header() {
             component={Link}
             to="/estimate"
           >
-            <ListItemText
-              className={
-                tabValue === 5
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-              disableTypography
-            >
+            <ListItemText className={classes.drawerItem} disableTypography>
               Free Estimate
             </ListItemText>
           </ListItem>
