@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
@@ -23,12 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
   gridContainer: {
     position: "absolute",
+    margin: "1.5rem 0",
   },
   link: {
     fontSize: ".75rem",
     fontFamily: "Arial",
     color: "white",
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    textDecoration: "none",
   },
 }));
 
@@ -36,55 +39,90 @@ export default function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-      <Grid container justify='center' className={classes.gridContainer}>
+      <Grid
+        container
+        justify="center"
+        className={classes.gridContainer}
+        spacing="10"
+      >
         <Grid item>
-          <Grid container direction="column">
-            <Grid item className={classes.link}>
+          <Grid container direction="column" spacing="2">
+            <Grid item className={classes.link} component={Link} to="/">
               Home
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction="column">
-            <Grid item className={classes.link}>
+          <Grid container direction="column" spacing="2">
+            <Grid item className={classes.link} component={Link} to="/services">
               Services
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/customsoftware"
+            >
               Custom Software Development
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/mobileapps"
+            >
               iOS/Android App Development
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid item className={classes.link} component={Link} to="/websites">
               Website Development
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction="column">
-            <Grid item className={classes.link}>
+          <Grid container direction="column" spacing="2">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/revolution"
+            >
               The Revolution
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/revolution"
+            >
               Vision
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/revolution"
+            >
               Technology
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              to="/revolution"
+            >
               Process
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction="column">
-            <Grid item className={classes.link}>
+          <Grid container direction="column" spacing="2">
+            <Grid item className={classes.link} component={Link} to="/about">
               About Us
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid item className={classes.link} component={Link} to="/about">
               History
             </Grid>
-            <Grid item className={classes.link}>
+            <Grid item className={classes.link} component={Link} to="/about">
               Team
             </Grid>
           </Grid>
