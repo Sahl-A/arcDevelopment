@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../components/ui/theme";
 
 import Header from "../components/ui/Header";
+import Footer from "../components/ui/Footer";
 import BackToTop from "../components/ui/BackToTop";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="/contact" component={() => <div>contact</div>} />
           <Route exact path="/estimate" component={() => <div>estimate</div>} />
         </Switch>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
