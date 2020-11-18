@@ -35,7 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Footer() {
+export default function Footer(props) {
+  const {
+    setTabValue,
+    setselectedMenuItemIndex,
+  } = props;
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -47,20 +51,41 @@ export default function Footer() {
       >
         <Grid item>
           <Grid container direction="column" spacing="2">
-            <Grid item className={classes.link} component={Link} to="/">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(0);
+              }}
+              to="/"
+            >
               Home
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
           <Grid container direction="column" spacing="2">
-            <Grid item className={classes.link} component={Link} to="/services">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(0);
+              }}
+              to="/services"
+            >
               Services
             </Grid>
             <Grid
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(1);
+              }}
               to="/customsoftware"
             >
               Custom Software Development
@@ -69,11 +94,24 @@ export default function Footer() {
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(2);
+              }}
               to="/mobileapps"
             >
               iOS/Android App Development
             </Grid>
-            <Grid item className={classes.link} component={Link} to="/websites">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(3);
+              }}
+              to="/websites"
+            >
               Website Development
             </Grid>
           </Grid>
@@ -84,6 +122,9 @@ export default function Footer() {
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(2);
+              }}
               to="/revolution"
             >
               The Revolution
@@ -92,6 +133,9 @@ export default function Footer() {
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(2);
+              }}
               to="/revolution"
             >
               Vision
@@ -100,6 +144,9 @@ export default function Footer() {
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(2);
+              }}
               to="/revolution"
             >
               Technology
@@ -108,6 +155,9 @@ export default function Footer() {
               item
               className={classes.link}
               component={Link}
+              onClick={() => {
+                setTabValue(2);
+              }}
               to="/revolution"
             >
               Process
@@ -116,14 +166,53 @@ export default function Footer() {
         </Grid>
         <Grid item>
           <Grid container direction="column" spacing="2">
-            <Grid item className={classes.link} component={Link} to="/about">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(3);
+              }}
+              to="/about"
+            >
               About Us
             </Grid>
-            <Grid item className={classes.link} component={Link} to="/about">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(3);
+              }}
+              to="/about"
+            >
               History
             </Grid>
-            <Grid item className={classes.link} component={Link} to="/about">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(3);
+              }}
+              to="/about"
+            >
               Team
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="column" spacing="2">
+            <Grid
+              item
+              className={classes.link}
+              component={Link}
+              onClick={() => {
+                setTabValue(4);
+              }}
+              to="/contact"
+            >
+              Contact Us
             </Grid>
           </Grid>
         </Grid>

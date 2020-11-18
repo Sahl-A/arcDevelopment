@@ -103,7 +103,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(props) {
+  const {
+    tabValue,
+    setTabValue,
+    selectedMenuItemIndex,
+    setselectedMenuItemIndex,
+  } = props;
   // Variable to handle the drawer in ios devices
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
@@ -114,17 +120,11 @@ export default function Header() {
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   /// useState ////
-  // useState to change the value when changing the tab
-  const [tabValue, setTabValue] = useState(0);
-
   // Indicator to be used to close the menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  // Indicator to be used when selecting the menu item
-  const [selectedMenuItemIndex, setselectedMenuItemIndex] = React.useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   // To open drawer
-  const [openDrawer, setopenDrawer] = React.useState(false);
+  const [openDrawer, setopenDrawer] = useState(false);
 
   ////////// Handlers /////////////
   ////////////////////////////////
