@@ -7,6 +7,7 @@ import theme from "../components/ui/theme";
 import Header from "../components/ui/Header";
 import Footer from "../components/ui/Footer";
 import BackToTop from "../components/ui/BackToTop";
+import LandingPage from '../components/LandingPage';
 
 function App() {
   // useState to change the value when changing the tab in header
@@ -24,7 +25,7 @@ function App() {
         />
         <BackToTop />
         <Switch>
-          <Route exact path="/" component={() => <div>Home</div>} />
+          <Route exact path="/" component={LandingPage} />
           <Route exact path="/services" component={() => <div>services</div>} />
           <Route
             exact

@@ -212,7 +212,7 @@ export default function Header(props) {
     if (window.location.pathname === "/estimate") {
       setTabValue(5);
     }
-  }, [tabValue, menuOptions, selectedMenuItemIndex, routes]);
+  }, [tabValue, menuOptions, selectedMenuItemIndex, routes, setTabValue, setselectedMenuItemIndex]);
 
   /////// Rendered Variables /////
   ////////////////////////////////
