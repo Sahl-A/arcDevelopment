@@ -9,6 +9,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
+import CallToAction from "../components/ui/CallToAction";
+
 import animationData from "../animations/landinganimation/data";
 import ButtonArrow from "../components/ui/ButtonArrow";
 import customSoftwareIcon from "../assets/Custom Software Icon.svg";
@@ -115,7 +117,6 @@ export default function LandingPage() {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   // Default options for the animations
   const defaultOptions = {
@@ -303,7 +304,10 @@ export default function LandingPage() {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="subtitle1">
+                <Typography
+                  variant="subtitle1"
+                  style={{ marginBottom: "1rem" }}
+                >
                   Visionary insights coupled with cutting-edge technology is a
                   recipe for revolution.
                 </Typography>
@@ -322,9 +326,11 @@ export default function LandingPage() {
         <div className={classes.revolutionBackground} />
       </Grid>
       {/* ///////// INFORMATION Block ////////// */}
-      <Grid item container></Grid>
+      {/* <Grid item container></Grid> */}
       {/* ///////// Call To Action Block ////////// */}
-      <Grid item container></Grid>
+      <Grid item>
+        <CallToAction />
+      </Grid>
     </Grid>
   );
 }

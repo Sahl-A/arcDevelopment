@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+    zIndex: 99999999999,
   },
   topToolBar: {
     height: "10px",
