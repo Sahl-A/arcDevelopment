@@ -244,7 +244,14 @@ export default function Header(props) {
           />
         ))}
       </Tabs>
-      <Button className={classes.button} variant="contained" color="secondary">
+      <Button
+        className={classes.button}
+        variant="contained"
+        color="secondary"
+        component={Link}
+        to="/estimate"
+        onClick={()=> setTabValue(15)}
+      >
         Free Estimate
       </Button>
       <Menu

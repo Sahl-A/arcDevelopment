@@ -1,5 +1,6 @@
 import React from "react";
 import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -138,12 +139,22 @@ export default function LandingPage() {
           </Typography>
           <Grid container justify="center" className={classes.buttonContainer}>
             <Grid item>
-              <Button variant="contained" className={classes.estimateButton}>
+              <Button
+                variant="contained"
+                className={classes.estimateButton}
+                component={Link}
+                to="/estimate"
+              >
                 Free estimate
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" className={classes.learnButtonHero}>
+              <Button
+                variant="outlined"
+                className={classes.learnButtonHero}
+                component={Link}
+                to="/revolution"
+              >
                 <span style={{ marginRight: 5 }}>Learn More</span>
                 <ButtonArrow
                   width="15"
@@ -185,6 +196,8 @@ export default function LandingPage() {
               variant="outlined"
               className={classes.learnButton}
               style={{ marginTop: ".8rem" }}
+              component={Link}
+              to="/customsoftware"
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -227,6 +240,8 @@ export default function LandingPage() {
               variant="outlined"
               className={classes.learnButton}
               style={{ marginTop: ".8rem" }}
+              component={Link}
+              to="/mobileapps"
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -269,6 +284,8 @@ export default function LandingPage() {
               variant="outlined"
               className={classes.learnButton}
               style={{ marginTop: ".8rem" }}
+              component={Link}
+              to="/websites"
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -311,7 +328,12 @@ export default function LandingPage() {
                   Visionary insights coupled with cutting-edge technology is a
                   recipe for revolution.
                 </Typography>
-                <Button className={classes.learnButtonHero} variant="outlined">
+                <Button
+                  className={classes.learnButtonHero}
+                  variant="outlined"
+                  component={Link}
+                  to="/revolution"
+                >
                   <span style={{ marginRight: 10 }}>Learn More</span>
                   <ButtonArrow
                     width={15}
