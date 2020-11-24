@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     zIndex: "1302",
     position: "relative",
+    overflow: 'hidden',
   },
   adornment: {
     width: "25em",

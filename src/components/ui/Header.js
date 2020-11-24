@@ -250,7 +250,7 @@ export default function Header(props) {
         color="secondary"
         component={Link}
         to="/estimate"
-        onClick={()=> setTabValue(15)}
+        onClick={() => setTabValue(15)}
       >
         Free Estimate
       </Button>

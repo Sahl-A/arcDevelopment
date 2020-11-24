@@ -114,7 +114,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LandingPage() {
+export default function LandingPage(props) {
+  console.log(props, "tssssssssssssssssssssssssssssssssssst");
+  const { setTabValue, setselectedMenuItemIndex } = props;
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -144,6 +146,7 @@ export default function LandingPage() {
                 className={classes.estimateButton}
                 component={Link}
                 to="/estimate"
+                onClick={() => setTabValue(15)}
               >
                 Free estimate
               </Button>
@@ -154,6 +157,7 @@ export default function LandingPage() {
                 className={classes.learnButtonHero}
                 component={Link}
                 to="/revolution"
+                onClick={() => setTabValue(2)}
               >
                 <span style={{ marginRight: 5 }}>Learn More</span>
                 <ButtonArrow
@@ -198,6 +202,10 @@ export default function LandingPage() {
               style={{ marginTop: ".8rem" }}
               component={Link}
               to="/customsoftware"
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(1);
+              }}
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -242,6 +250,10 @@ export default function LandingPage() {
               style={{ marginTop: ".8rem" }}
               component={Link}
               to="/mobileapps"
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(2);
+              }}
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -286,6 +298,10 @@ export default function LandingPage() {
               style={{ marginTop: ".8rem" }}
               component={Link}
               to="/websites"
+              onClick={() => {
+                setTabValue(1);
+                setselectedMenuItemIndex(3);
+              }}
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -333,6 +349,7 @@ export default function LandingPage() {
                   variant="outlined"
                   component={Link}
                   to="/revolution"
+                  onClick={() => setTabValue(2)}
                 >
                   <span style={{ marginRight: 10 }}>Learn More</span>
                   <ButtonArrow
@@ -351,7 +368,7 @@ export default function LandingPage() {
       {/* <Grid item container></Grid> */}
       {/* ///////// Call To Action Block ////////// */}
       <Grid item>
-        <CallToAction />
+        <CallToAction setTabValue={setTabValue} />
       </Grid>
     </Grid>
   );

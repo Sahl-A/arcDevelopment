@@ -11,13 +11,14 @@ import CTAMobileBackground from "../../assets/mobileBackground.jpg";
 
 const useStyles = makeStyles((theme) => ({
   CTAContainer: {
+    boxSizing: "border-box",
     backgroundImage: `url(${CTABackground})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
+    width: "98.9vw",
     height: "100vh",
-    width: "100vw",
     padding: "0 5rem",
     justifyContent: "space-between",
     alignItems: "center",
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundImage: `url(${CTAMobileBackground})`,
       flexDirection: "column",
       justifyContent: "center",
+      width: "96.65vw",
     },
   },
   learnButton: {
@@ -54,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CallToAction() {
+export default function CallToAction(props) {
+  const { setTabValue } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -77,6 +80,7 @@ export default function CallToAction() {
               style={{ marginTop: ".8rem" }}
               component={Link}
               to="/revolution"
+              onClick={() => setTabValue(2)}
             >
               <span style={{ marginRight: 5 }}>Learn More</span>
               <ButtonArrow
@@ -97,6 +101,7 @@ export default function CallToAction() {
               color="secondary"
               component={Link}
               to="/estimate"
+              onClick={() => setTabValue(15)}
             >
               Free Estimate
             </Button>
