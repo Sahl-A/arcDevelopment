@@ -8,6 +8,7 @@ import Header from "../components/ui/Header";
 import Footer from "../components/ui/Footer";
 import BackToTop from "../components/ui/BackToTop";
 import LandingPage from "../components/LandingPage";
+import Services from "../components/Services";
 
 function App() {
   // useState to change the value when changing the tab in header
@@ -36,7 +37,17 @@ function App() {
             exact
             path="/"
           />
-          <Route exact path="/services" component={() => <div>services</div>} />
+          <Route
+            exact
+            path="/services"
+            render={(props) => (
+              <Services
+                {...props}
+                setTabValue={setTabValue}
+                setselectedMenuItemIndex={setselectedMenuItemIndex}
+              />
+            )}
+          />
           <Route
             exact
             path="/customsoftware"

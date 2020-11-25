@@ -81,10 +81,12 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginLeft: "2em",
+    width: 240,
+    height: 240,
     [theme.breakpoints.down("xs")]: {
       marginLeft: 0,
-      height: 120,
       width: 120,
+      height: 120,
     },
   },
   serviceContainer: {
@@ -115,7 +117,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LandingPage(props) {
-  console.log(props, "tssssssssssssssssssssssssssssssssssst");
   const { setTabValue, setselectedMenuItemIndex } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -207,7 +208,7 @@ export default function LandingPage(props) {
                 setselectedMenuItemIndex(1);
               }}
             >
-              <span style={{ marginRight: 5 }}>Learn More</span>
+              <span style={{ margin: '0 2px 0 5px' }}>Learn More</span>
               <ButtonArrow
                 height="10"
                 width="10"
@@ -255,7 +256,7 @@ export default function LandingPage(props) {
                 setselectedMenuItemIndex(2);
               }}
             >
-              <span style={{ marginRight: 5 }}>Learn More</span>
+              <span style={{ margin: '0 2px 0 5px' }}>Learn More</span>
               <ButtonArrow
                 height="10"
                 width="10"
@@ -303,7 +304,7 @@ export default function LandingPage(props) {
                 setselectedMenuItemIndex(3);
               }}
             >
-              <span style={{ marginRight: 5 }}>Learn More</span>
+              <span style={{ margin: '0 2px 0 5px' }}>Learn More</span>
               <ButtonArrow
                 height="10"
                 width="10"
@@ -364,8 +365,6 @@ export default function LandingPage(props) {
         </Card>
         <div className={classes.revolutionBackground} />
       </Grid>
-      {/* ///////// INFORMATION Block ////////// */}
-      {/* <Grid item container></Grid> */}
       {/* ///////// Call To Action Block ////////// */}
       <Grid item>
         <CallToAction setTabValue={setTabValue} />
