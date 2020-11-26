@@ -509,7 +509,7 @@ export default function CustomSoftware(props) {
       </Grid>
       {/* /////// Sixth Block /////// */}
       {/* Call To Action */}
-      <Grid item container direction="row">
+      <Grid item>
         <CallToAction
           setTabValue={setTabValue}
           setselectedMenuItemIndex={setselectedMenuItemIndex}
