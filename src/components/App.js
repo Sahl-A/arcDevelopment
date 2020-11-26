@@ -89,14 +89,7 @@ function App() {
           <Route
             exact
             path="/revolution"
-            render={(props) => (
-              <Revolution
-                {...props}
-                setTabValue={setTabValue}
-                setselectedMenuItemIndex={setselectedMenuItemIndex}
-                selectedMenuItemIndex={selectedMenuItemIndex}
-              />
-            )}
+            render={(props) => <Revolution {...props} />}
           />
           <Route exact path="/about" component={() => <div>about</div>} />
           <Route exact path="/contact" component={() => <div>contact</div>} />
