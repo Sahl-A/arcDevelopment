@@ -11,6 +11,8 @@ import LandingPage from "../components/LandingPage";
 import Services from "../components/Services";
 import CustomSoftware from "../components/CustomSoftware";
 import MobileApps from "../components/MobileApps";
+import Websites from "../components/Websites";
+import Revolution from "../components/Revolution";
 
 function App() {
   // useState to change the value when changing the tab in header
@@ -29,8 +31,8 @@ function App() {
         <BackToTop />
         <Switch>
           <Route
-          exact
-          path="/"
+            exact
+            path="/"
             render={(props) => (
               <LandingPage
                 {...props}
@@ -72,11 +74,29 @@ function App() {
               />
             )}
           />
-          <Route exact path="/websites" component={() => <div>websites</div>} />
+          <Route
+            exact
+            path="/websites"
+            render={(props) => (
+              <Websites
+                {...props}
+                setTabValue={setTabValue}
+                setselectedMenuItemIndex={setselectedMenuItemIndex}
+                selectedMenuItemIndex={selectedMenuItemIndex}
+              />
+            )}
+          />
           <Route
             exact
             path="/revolution"
-            component={() => <div>revolution</div>}
+            render={(props) => (
+              <Revolution
+                {...props}
+                setTabValue={setTabValue}
+                setselectedMenuItemIndex={setselectedMenuItemIndex}
+                selectedMenuItemIndex={selectedMenuItemIndex}
+              />
+            )}
           />
           <Route exact path="/about" component={() => <div>about</div>} />
           <Route exact path="/contact" component={() => <div>contact</div>} />
