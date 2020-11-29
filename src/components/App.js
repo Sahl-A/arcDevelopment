@@ -13,6 +13,8 @@ import CustomSoftware from "../components/CustomSoftware";
 import MobileApps from "../components/MobileApps";
 import Websites from "../components/Websites";
 import Revolution from "../components/Revolution";
+import Contact from "../components/Contact";
+import Estimate from "../components/Estimate";
 
 function App() {
   // useState to change the value when changing the tab in header
@@ -92,8 +94,23 @@ function App() {
             render={(props) => <Revolution {...props} />}
           />
           <Route exact path="/about" component={() => <div>about</div>} />
-          <Route exact path="/contact" component={() => <div>contact</div>} />
-          <Route exact path="/estimate" component={() => <div>estimate</div>} />
+          <Route
+            exact
+            path="/contact"
+            render={(props) => (
+              <Contact
+                {...props}
+                setTabValue={setTabValue}
+                setselectedMenuItemIndex={setselectedMenuItemIndex}
+                selectedMenuItemIndex={selectedMenuItemIndex}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/estimate"
+            render={(props) => <Estimate {...props} />}
+          />
         </Switch>
         <Footer
           tabValue={tabValue}
