@@ -4,7 +4,6 @@ import { cloneDeep } from "lodash";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,29 +17,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import check from "../assets/check.svg";
 import send from "../assets/send.svg";
-import software from "../assets/software.svg";
-import mobile from "../assets/mobile.svg";
-import website from "../assets/website.svg";
 import backArrow from "../assets/backArrow.svg";
 import backArrowDisabled from "../assets/backArrowDisabled.svg";
 import forwardArrow from "../assets/forwardArrow.svg";
 import forwardArrowDisabled from "../assets/forwardArrowDisabled.svg";
-import camera from "../assets/camera.svg";
-import upload from "../assets/upload.svg";
-import person from "../assets/person.svg";
-import persons from "../assets/persons.svg";
-import info from "../assets/info.svg";
-import bell from "../assets/bell.svg";
-import people from "../assets/people.svg";
-import usersIcon from "../assets/users.svg";
-import iPhone from "../assets/iphone.svg";
-import gps from "../assets/gps.svg";
-import customized from "../assets/customized.svg";
-import data from "../assets/data.svg";
-import android from "../assets/android.svg";
-import globe from "../assets/globe.svg";
-import biometrics from "../assets/biometrics.svg";
 import estimateAnimation from "../animations/estimateAnimation/data.json";
+
+import {defaultQuestions, softwareQuestions, websiteQuestions} from '../assets/estimateQuestions'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -67,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Estimate() {
   const classes = useStyles();
   const theme = useTheme();
@@ -90,7 +74,7 @@ export default function Estimate() {
       {/* .......................................... */}
       <Grid
         lg={4}
-        style={{ margin: matchesMD ? "2rem 0 10rem 0" : "2rem 5rem 5rem 0" }}
+        style={{ margin: matchesMD ? "2rem 0 7rem 0" : "2rem 5rem 5rem 0" }}
         item
         container
         direction="column"
@@ -115,63 +99,74 @@ export default function Estimate() {
           />
         </Grid>
       </Grid>
+
       {/* Right Side that includes the Questions */}
       {/* .......................................... */}
-      <Grid lg={6} item container direction="column" alignItems="center">
-        {/* Question */}
-        <Grid item>
-          <Typography style={{ marginBottom: "2rem" }} variant="h4">
-            Which Service are you interested in?
-          </Typography>
-        </Grid>
-        {/* Answers */}
-        <Grid item container direction="row" spacing={6}>
-          {/* First Answer */}
-          <Grid md item container direction="column" alignItems="center">
-            <Grid item>
-              <Typography className={classes.answerText} variant="h6">
-                Custom Software Development
-              </Typography>
-            </Grid>
-            <Grid item>
-              <img
-                className={classes.icon}
-                src={software}
-                alt="three floating screens"
-              />
-            </Grid>
-          </Grid>
-          {/* Second Answer */}
-          <Grid md item container direction="column" alignItems="center">
-            <Grid item>
-              <Typography className={classes.answerText} variant="h6">
-                Custom Software Development
-              </Typography>
-            </Grid>
-            <Grid item>
-              <img
-                className={classes.icon}
-                src={software}
-                alt="three floating screens"
-              />
-            </Grid>
-          </Grid>
-          {/* Third Answer */}
-          <Grid md item container direction="column" alignItems="center">
-            <Grid item>
-              <Typography className={classes.answerText} variant="h6">
-                Custom Software Development
-              </Typography>
-            </Grid>
-            <Grid item>
-              <img
-                className={classes.icon}
-                src={software}
-                alt="three floating screens"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
+      <Grid
+        lg={6}
+        style={{ marginLeft: "auto" }}
+        item
+        container
+        direction="column"
+        alignItems="center"
+      >
+        {/* Question & Answers */}
+        {defaultQuestions
+          .filter((question) => question.active)
+          .map((question, index) => (
+            <React.Fragment key={index}>
+              {/* //////// Question  */}
+              <Grid item>
+                <Typography
+                  style={{
+                    marginBottom: "2rem",
+                    maxWidth: matchesMD ? "25rem" : undefined,
+                    textAlign: matchesMD ? "center" : undefined,
+                  }}
+                  variant="h4"
+                >
+                  {question.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  style={{ marginBottom: "2.5em" }}
+                  gutterBottom
+                >
+                  {question.subtitle}
+                </Typography>
+              </Grid>
+              {/* /////// Answers */}
+              <Grid item container direction="row" spacing={6}>
+                {question.options.map((option, index) => (
+                  <Grid
+                    key={index}
+                    md
+                    item
+                    container
+                    direction="column"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Typography className={classes.answerText} variant="h6">
+                        {option.title}
+                      </Typography>
+                      <Typography align="center" variant="caption">
+                        {option.subtitle}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <img
+                        className={classes.icon}
+                        src={option.icon}
+                        alt={option.iconAlt}
+                      />
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </React.Fragment>
+          ))}
         {/* Navigation Arrows */}
         <Grid item container>
           <Grid
