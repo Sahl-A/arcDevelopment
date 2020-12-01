@@ -79,7 +79,7 @@ export default function Estimate() {
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
   // UseState
-  const [questions, setQuestions] = useState(softwareQuestions);
+  const [questions, setQuestions] = useState(defaultQuestions);
 
   ////////// Functions ///////////
   // Navigate to the next question
@@ -117,8 +117,39 @@ export default function Estimate() {
     const activeIndex = currentlyActive[0].id - 1;
 
     const newSelected = newQuestions[activeIndex].options[id - 1];
-    newSelected.selected = !newSelected.selected;
-    setQuestions(newQuestions);
+    const previousSelected = currentlyActive[0].options.filter(
+      (option) => option.selected
+    );
+
+    switch (currentlyActive[0].subtitle) {
+      case "Select one.":
+        if (previousSelected[0]) {
+          previousSelected[0].selected = !previousSelected[0].selected;
+        }
+        newSelected.selected = !newSelected.selected;
+        break;
+      default:
+        newSelected.selected = !newSelected.selected;
+        break;
+    }
+
+    switch (newSelected.title) {
+      case "Custom Software Development":
+        setQuestions(softwareQuestions);
+
+        break;
+      case "iOS/Android App Development":
+        setQuestions(softwareQuestions);
+
+        break;
+      case "Website Development":
+        setQuestions(websiteQuestions);
+
+        break;
+      default:
+        setQuestions(newQuestions);
+        break;
+    }
   };
 
   // Check wheather the previous navigation is disabled or not
