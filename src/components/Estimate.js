@@ -12,8 +12,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
-import Snackbar from "@material-ui/core/Snackbar";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import check from "../assets/check.svg";
 import send from "../assets/send.svg";
@@ -34,12 +32,6 @@ const useStyles = makeStyles((theme) => ({
     width: "9rem",
     height: "9rem",
   },
-  /*   answer: {
-    "&:hover": {
-      backgroundColor: theme.palette.grey[200],
-      cursor: "pointer",
-    },
-  }, */
   answerText: {
     maxWidth: "12rem",
     marginBottom: "1rem",
@@ -57,6 +49,18 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
     },
+  },
+  message: {
+    border: `2px solid ${theme.palette.common.blue}`,
+    marginTop: "3em",
+    marginBottom: "2em",
+    borderRadius: 5,
+  },
+  specialText: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "2rem",
+    color: theme.palette.common.orange,
   },
 }));
 
@@ -80,6 +84,25 @@ export default function Estimate() {
 
   // UseState
   const [questions, setQuestions] = useState(defaultQuestions);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
+
+  const [phone, setPhone] = useState("");
+  const [phoneHelper, setPhoneHelper] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const [total, setTotal] = useState(0);
+  const [platforms, setPlatforms] = useState([]);
+  const [features, setFeatures] = useState([]);
+  const [customFeatures, setCustomFeatures] = useState("");
+  const [users, setUsers] = useState("");
+  const [category, setCategory] = useState("");
 
   ////////// Functions ///////////
   // Navigate to the next question
@@ -172,6 +195,275 @@ export default function Estimate() {
     }
     return false;
   };
+
+  // Disable the get estimate button
+  const estimateDisabled = () => {
+    let disabled = true;
+
+    const emptySelections = questions
+      .map((question) => question.options.filter((option) => option.selected))
+      .filter((question) => question.length === 0);
+
+    if (questions.length === 2) {
+      if (emptySelections.length === 1) {
+        return false;
+      }
+    } else if (questions.length === 1) {
+      return true;
+    } else {
+      if (
+        emptySelections.length < 3 &&
+        questions[questions.length - 1].options.filter(
+          (option) => option.selected
+        ).length > 0
+      ) {
+        return false;
+      }
+    }
+
+    return disabled;
+  };
+
+  const onChange = (event) => {
+    let valid;
+
+    switch (event.target.id) {
+      case "email":
+        setEmail(event.target.value);
+        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          event.target.value
+        );
+
+        if (!valid) {
+          setEmailHelper("Invalid email");
+        } else {
+          setEmailHelper("");
+        }
+        break;
+      case "phone":
+        setPhone(event.target.value);
+        valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+          event.target.value
+        );
+
+        if (!valid) {
+          setPhoneHelper("Invalid phone");
+        } else {
+          setPhoneHelper("");
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getTotal = () => {
+    let cost = 0;
+
+    const selections = questions
+      .map((question) => question.options.filter((option) => option.selected))
+      .filter((question) => question.length > 0);
+
+    selections.map((options) => options.map((option) => (cost += option.cost)));
+
+    if (questions.length > 2) {
+      const userCost = questions
+        .filter(
+          (question) => question.title === "How many users do you expect?"
+        )
+        .map((question) =>
+          question.options.filter((option) => option.selected)
+        )[0][0];
+
+      setUsers(userCost.title);
+
+      cost -= userCost.cost;
+      cost *= userCost.cost;
+    }
+
+    setTotal(cost);
+  };
+
+  const getPlatforms = () => {
+    if (questions.length > 2) {
+      let newPlatforms = [];
+
+      questions
+        .filter(
+          (question) =>
+            question.title === "Which platforms do you need supported?"
+        )
+        .map((question) =>
+          question.options.filter((option) => option.selected)
+        )[0]
+        .map((option) => newPlatforms.push(option.title));
+
+      setPlatforms(newPlatforms);
+    }
+  };
+
+  const getFeatures = () => {
+    if (questions.length > 2) {
+      let newFeatures = [];
+
+      questions
+        .filter(
+          (question) =>
+            question.title === "Which features do you expect to use?"
+        )
+        .map((question) => question.options.filter((option) => option.selected))
+        .map((option) =>
+          option.map((newFeature) => newFeatures.push(newFeature.title))
+        );
+
+      setFeatures(newFeatures);
+    }
+  };
+
+  const getCustomFeatures = () => {
+    if (questions.length > 2) {
+      const newCustomFeatures = questions
+        .filter(
+          (question) =>
+            question.title ===
+            "What type of custom features do you expect to need?"
+        )
+        .map((question) =>
+          question.options.filter((option) => option.selected)
+        )[0][0].title;
+
+      setCustomFeatures(newCustomFeatures);
+    }
+  };
+
+  const getCategory = () => {
+    if (questions.length === 2) {
+      const newCategory = questions
+        .filter(
+          (question) =>
+            question.title === "Which type of website are you wanting?"
+        )[0]
+        .options.filter((option) => option.selected)[0].title;
+
+      setCategory(newCategory);
+    }
+  };
+
+  // Variable to be displayed
+  const softwareSelections = (
+    <Grid container direction="column">
+      <Grid
+        item
+        container
+        alignItems="center"
+        style={{ marginBottom: "1.25em" }}
+      >
+        <Grid item xs={2}>
+          <img src={check} alt="checkmark" />
+        </Grid>
+        <Grid item xs={10}>
+          <Typography variant="body1">
+            {`You want  `}
+            {platforms.length > 0
+              ? `for ${
+                  //if only web application is selected...
+                  platforms.indexOf("Web Application") > -1 &&
+                  platforms.length === 1
+                    ? //then finish sentence here
+                      "a Web Application."
+                    : //otherwise, if web application and another platform is selected...
+                    platforms.indexOf("Web Application") > -1 &&
+                      platforms.length === 2
+                    ? //then finish the sentence here
+                      `a Web Application and an ${platforms[1]}.`
+                    : //otherwise, if only one platform is selected which isn't web application...
+                    platforms.length === 1
+                    ? //then finish the sentence here
+                      `an ${platforms[0]}`
+                    : //otherwise, if other two options are selected...
+                    platforms.length === 2
+                    ? //then finish the sentence here
+                      "an iOS Application and an Android Application."
+                    : //otherwise if all three are selected...
+                    platforms.length === 3
+                    ? //then finish the sentence here
+                      "a Web Application, an iOS Application, and an Android Application."
+                    : null
+                }`
+              : null}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        item
+        container
+        alignItems="center"
+        style={{ marginBottom: "1.25em" }}
+      >
+        <Grid item xs={2}>
+          <img src={check} alt="checkmark" />
+        </Grid>
+        <Grid item xs={10}>
+          <Typography variant="body1">
+            {"with "}
+            {/* if we have features... */}
+            {features.length > 0
+              ? //...and there's only 1...
+                features.length === 1
+                ? //then end the sentence here
+                  `${features[0]}.`
+                : //otherwise, if there are two features...
+                features.length === 2
+                ? //...then end the sentence here
+                  `${features[0]} and ${features[1]}.`
+                : //otherwise, if there are three or more features...
+                  features
+                    //filter out the very last feature...
+                    .filter((feature, index) => index !== features.length - 1)
+                    //and for those features return their name...
+                    .map((feature, index) => (
+                      <span key={index}>{`${feature}, `}</span>
+                    ))
+              : null}
+            {features.length > 0 &&
+            features.length !== 1 &&
+            features.length !== 2
+              ? //...and then finally add the last feature with 'and' in front of it
+                ` and ${features[features.length - 1]}.`
+              : null}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid item container alignItems="center">
+        <Grid item xs={2}>
+          <img src={check} alt="checkmark" />
+        </Grid>
+        <Grid item xs={10}>
+          <Typography variant="body1">
+            {`The custom features will be of ${customFeatures.toLowerCase()}, and the project will be used by about ${users} users.`}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
+  const websiteSelections = (
+    <Grid container direction="column" style={{ marginTop: "14em" }}>
+      <Grid item container alignItems="center">
+        <Grid item xs={2}>
+          <img src={check} alt="checkmark" />
+        </Grid>
+        <Grid item xs={10}>
+          <Typography variant="body1">
+            {`You want `}
+            {category === "Basic"
+              ? "a Basic Website."
+              : `an ${category} Website.`}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
 
   return (
     <Grid container style={{ margin: "5rem 0 5rem 0" }}>
@@ -319,11 +611,171 @@ export default function Estimate() {
         </Grid>
         {/* Estimate Button */}
         <Grid item>
-          <Button variant="contained" className={classes.estimateButton}>
+          <Button
+            disabled={estimateDisabled()}
+            className={classes.estimateButton}
+            onClick={() => {
+              setDialogOpen(true);
+              getTotal();
+              getPlatforms();
+              getFeatures();
+              getCustomFeatures();
+              getCategory();
+            }}
+            variant="contained"
+          >
             Get Estimate
           </Button>
         </Grid>
       </Grid>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        fullWidth
+        maxWidth="lg"
+        style={{ zIndex: 1302 }}
+        fullScreen={matchesSM}
+      >
+        <Grid container justify="center">
+          <Grid item style={{ marginTop: "1em" }}>
+            <Typography variant="h2" align="center">
+              Estimate
+            </Typography>
+          </Grid>
+        </Grid>
+        <DialogContent>
+          <Grid
+            container
+            justify="space-around"
+            direction={matchesSM ? "column" : "row"}
+            alignItems={matchesSM ? "center" : undefined}
+          >
+            <Grid
+              item
+              container
+              direction="column"
+              md={7}
+              style={{ maxWidth: "20em" }}
+            >
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Name"
+                  id="name"
+                  fullWidth
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </Grid>
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Email"
+                  error={emailHelper.length !== 0}
+                  helperText={emailHelper}
+                  id="email"
+                  fullWidth
+                  value={email}
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item style={{ marginBottom: "0.5em" }}>
+                <TextField
+                  label="Phone"
+                  helperText={phoneHelper}
+                  error={phoneHelper.length !== 0}
+                  id="phone"
+                  fullWidth
+                  value={phone}
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  InputProps={{ disableUnderline: true }}
+                  value={message}
+                  className={classes.message}
+                  multiline
+                  fullWidth
+                  placeholder="Tell us more about your project."
+                  rows={10}
+                  id="message"
+                  onChange={(event) => setMessage(event.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="body1"
+                  paragraph
+                  align={matchesSM ? "center" : undefined}
+                  style={{ lineHeight: 1.1 }}
+                >
+                  We can create this digital solution for an estimated{" "}
+                  <span className={classes.specialText}>
+                    ${total.toFixed(2)}
+                  </span>
+                </Typography>
+                <Typography
+                  variant="body1"
+                  paragraph
+                  align={matchesSM ? "center" : undefined}
+                >
+                  Fill out your name, number, and email, place your request, and
+                  we’ll get back to you with details moving forward and a final
+                  price.
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              direction="column"
+              md={5}
+              style={{ maxWidth: "30em" }}
+              alignItems={matchesSM ? "center" : undefined}
+            >
+              <Hidden smDown>
+                <Grid item>
+                  {questions.length > 2
+                    ? softwareSelections
+                    : websiteSelections}
+                </Grid>
+              </Hidden>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  className={classes.estimateButton}
+                  // onClick={sendEstimate}
+                  disabled={
+                    name.length === 0 ||
+                    message.length === 0 ||
+                    phoneHelper.length !== 0 ||
+                    emailHelper.length !== 0
+                  }
+                >
+                  <React.Fragment>
+                    Place Request
+                    <img
+                      src={send}
+                      alt="paper airplane"
+                      style={{ marginLeft: "0.5em" }}
+                    />
+                  </React.Fragment>
+                </Button>
+              </Grid>
+              <Hidden mdUp>
+                <Grid item style={{ marginBottom: matchesSM ? "5em" : 0 }}>
+                  <Button
+                    style={{ fontWeight: 300 }}
+                    color="primary"
+                    onClick={() => setDialogOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+              </Hidden>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </Grid>
   );
 }
