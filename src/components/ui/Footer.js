@@ -193,43 +193,6 @@ export default function Footer(props) {
                 className={classes.link}
                 component={Link}
                 onClick={() => {
-                  setTabValue(3);
-                }}
-                to="/about"
-              >
-                About Us
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                onClick={() => {
-                  setTabValue(3);
-                }}
-                to="/about"
-              >
-                History
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                onClick={() => {
-                  setTabValue(3);
-                }}
-                to="/about"
-              >
-                Team
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="column" spacing="2">
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                onClick={() => {
                   setTabValue(4);
                 }}
                 to="/contact"
