@@ -151,7 +151,7 @@ export default function Header(props) {
   /////// Variables ////////
   //////////////////////////
   const menuOptions = [
-    { name: "services", link: "/services", activeIndex: 1, selectedIndex: 0 },
+    { name: "Services", link: "/services", activeIndex: 1, selectedIndex: 0 },
     {
       name: "Custom Software Development",
       link: "/customsoftware",
@@ -183,8 +183,7 @@ export default function Header(props) {
       onMouseEnter: handleMenuClick,
     },
     { name: "The Revolution", link: "/revolution", activeIndex: 2 },
-    { name: "About Us", link: "/about", activeIndex: 3 },
-    { name: "Contact Us", link: "/contact", activeIndex: 4 },
+    { name: "Contact Us", link: "/contact", activeIndex: 3 },
   ];
 
   /////// USE EFFECT HOOK ////////

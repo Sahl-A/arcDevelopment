@@ -45,7 +45,7 @@ export default function MobileApps(props) {
 
   const defaultOptions = {
     loop: true,
-    autoplay: false,
+    autoplay: true,
     animationData: integrationAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -176,7 +176,7 @@ export default function MobileApps(props) {
         </Grid>
         {/* Middle Section */}
         <Grid item md>
-          <Lottie options={defaultOptions} style={{ maxWidth: "20em" }} />
+          <Lottie options={defaultOptions} style={{ maxWidth: "19em" }} />
         </Grid>
         {/* Right Section */}
         <Grid item container direction="column" md>

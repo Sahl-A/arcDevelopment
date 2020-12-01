@@ -61,7 +61,7 @@ export default function CustomSoftware(props) {
 
   const scaleOptions = {
     loop: true,
-    autoplay: false,
+    autoplay: true,
     animationData: scaleAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -70,7 +70,7 @@ export default function CustomSoftware(props) {
 
   const automationOptions = {
     loop: true,
-    autoplay: false,
+    autoplay: true,
     animationData: automationAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -79,7 +79,7 @@ export default function CustomSoftware(props) {
 
   const uxOptions = {
     loop: true,
-    autoplay: false,
+    autoplay: true,
     animationData: uxAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
