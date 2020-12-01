@@ -23,12 +23,22 @@ import forwardArrow from "../assets/forwardArrow.svg";
 import forwardArrowDisabled from "../assets/forwardArrowDisabled.svg";
 import estimateAnimation from "../animations/estimateAnimation/data.json";
 
-import {defaultQuestions, softwareQuestions, websiteQuestions} from '../assets/estimateQuestions'
+import {
+  defaultQuestions,
+  softwareQuestions,
+  websiteQuestions,
+} from "../assets/estimateQuestions";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
     width: "9rem",
     height: "9rem",
+  },
+  answer: {
+    "&:hover": {
+      backgroundColor: theme.palette.grey[200],
+      cursor: "pointer",
+    },
   },
   answerText: {
     maxWidth: "12rem",
@@ -50,13 +60,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Estimate() {
   const classes = useStyles();
   const theme = useTheme();
-
-  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
   // Default options for the animations
   const defaultOptions = {
@@ -66,6 +72,62 @@ export default function Estimate() {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  /////////// HOOKS ////////////
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
+
+  // UseState
+  const [questions, setQuestions] = useState(softwareQuestions);
+
+  ////////// Functions ///////////
+  // Navigate to the next question
+  const nextQuestion = () => {
+    const newQuestions = cloneDeep(questions);
+
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex + 1;
+
+    newQuestions[activeIndex] = { ...currentlyActive[0], active: false };
+    newQuestions[nextIndex] = { ...newQuestions[nextIndex], active: true };
+
+    setQuestions(newQuestions);
+  };
+  // Navigate to the previous question
+  const previousQuestion = () => {
+    const newQuestions = cloneDeep(questions);
+
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex - 1;
+
+    newQuestions[activeIndex] = { ...currentlyActive[0], active: false };
+    newQuestions[nextIndex] = { ...newQuestions[nextIndex], active: true };
+
+    setQuestions(newQuestions);
+  };
+
+  // Check wheather the previous navigation is disabled or not
+  const backButtonDisabled = () => {
+    const currentlyActive = questions.filter((question) => question.active);
+    const activeId = currentlyActive[0].id;
+
+    if (activeId === 1) {
+      return true;
+    }
+    return false;
+  };
+  // Check wheather the forward navigation is disabled or not
+  const forwardButtonDisabled = () => {
+    const currentlyActive = questions.filter((question) => question.active);
+    const activeId = currentlyActive[0].id;
+
+    if (activeId === questions[questions.length - 1].id) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -111,7 +173,7 @@ export default function Estimate() {
         alignItems="center"
       >
         {/* Question & Answers */}
-        {defaultQuestions
+        {questions
           .filter((question) => question.active)
           .map((question, index) => (
             <React.Fragment key={index}>
@@ -146,6 +208,7 @@ export default function Estimate() {
                     container
                     direction="column"
                     alignItems="center"
+                    className={classes.answer}
                   >
                     <Grid item>
                       <Typography className={classes.answerText} variant="h6">
@@ -176,13 +239,29 @@ export default function Estimate() {
             style={{ width: "18rem", margin: "3em auto 0 auto" }}
           >
             <Grid item>
-              <IconButton>
-                <img src={backArrow} alt="Previous question" />
+              <IconButton
+                disabled={backButtonDisabled()}
+                onClick={previousQuestion}
+              >
+                <img
+                  src={backButtonDisabled() ? backArrowDisabled : backArrow}
+                  alt="Previous question"
+                />
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton>
-                <img src={forwardArrow} alt="Next question" />
+              <IconButton
+                disabled={forwardButtonDisabled()}
+                onClick={nextQuestion}
+              >
+                <img
+                  src={
+                    forwardButtonDisabled()
+                      ? forwardArrowDisabled
+                      : forwardArrow
+                  }
+                  alt="Next question"
+                />
               </IconButton>
             </Grid>
           </Grid>
