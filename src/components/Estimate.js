@@ -34,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
     width: "9rem",
     height: "9rem",
   },
-  answer: {
+  /*   answer: {
     "&:hover": {
       backgroundColor: theme.palette.grey[200],
       cursor: "pointer",
     },
-  },
+  }, */
   answerText: {
     maxWidth: "12rem",
     marginBottom: "1rem",
@@ -106,6 +106,18 @@ export default function Estimate() {
     newQuestions[activeIndex] = { ...currentlyActive[0], active: false };
     newQuestions[nextIndex] = { ...newQuestions[nextIndex], active: true };
 
+    setQuestions(newQuestions);
+  };
+
+  // Select the answer
+  const handleSelect = (id) => {
+    const newQuestions = cloneDeep(questions);
+
+    const currentlyActive = newQuestions.filter((question) => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+
+    const newSelected = newQuestions[activeIndex].options[id - 1];
+    newSelected.selected = !newSelected.selected;
     setQuestions(newQuestions);
   };
 
@@ -208,7 +220,15 @@ export default function Estimate() {
                     container
                     direction="column"
                     alignItems="center"
-                    className={classes.answer}
+                    component={Button}
+                    onClick={() => handleSelect(option.id)}
+                    style={{
+                      display: "grid",
+                      textTransform: "none",
+                      backgroundColor: option.selected
+                        ? theme.palette.common.orange
+                        : undefined,
+                    }}
                   >
                     <Grid item>
                       <Typography className={classes.answerText} variant="h6">
